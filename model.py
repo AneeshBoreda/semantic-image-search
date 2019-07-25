@@ -1,4 +1,4 @@
-
+import pickle as pkl
 from mynn.layers.dense import dense
 from mynn.initializers.glorot_normal import glorot_normal
 from mynn.optimizers.adam import Adam
@@ -26,4 +26,13 @@ def train(model, text_emb, good_img, bad_img, optim):
 def sim(v1, v2):
     v2/=np.linalg.norm(v2)
     return mg.dot(v1,v2)
-
+def save(model):
+    f=open('model.obj','wb')
+    pkl.dump(model,f)
+    f.close()
+def load():
+    f=open('model.obj','rb')
+    model=pkl.load(f)
+    f.close()
+    return model
+    

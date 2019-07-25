@@ -25,5 +25,5 @@ def train(model, text_emb, good_img, bad_img, optim):
     return loss.item()
 def sim(v1, v2):
     v2/=np.linalg.norm(v2)
-    return mg.cos(v1,v2)
+    return mg.dot(v1,v2)
 

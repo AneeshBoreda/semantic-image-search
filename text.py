@@ -134,7 +134,7 @@ def se_text(caption, idf, vocab_dict):
     return vector
 
 
-
+"""
 caption1 = "happy dog"
 caption2 = "sad dog"
 captions = [caption1, caption2]
@@ -142,4 +142,5 @@ captions = [caption1, caption2]
 idf, vocab_dict = save_idf(captions)
 for caption in captions:
     print(se_text(caption, idf, vocab_dict))
+"""
 

@@ -108,25 +108,38 @@ def to_idf(vocab, counters):
     """
 
 
+def save_idf(captions):
+    """
+    Parameters:
+        captions (list of string docs)
+    returns:
+    """
+    counterlist = []
+    for doc in captions:
+        counter = to_counter(doc)
+        counterlist.append(counter)
+    vocab = to_vocab(counterlist)
+    idf = to_idf(vocab, counterlist)
+    vocab_dict = {word:index for index,word in enumerate(vocab)}
+    return idf, vocab_dict
 
-
-
-
-
-
-
-
-def se_text(caption):
+def se_text(caption, idf, vocab_dict):
     wordlist = caption.split()
-    counter = to_counter(caption)
-    vocab = to_vocab([counter])
-    idf = to_idf(vocab, counter)
-    
     vector = 0
     i = 0
     for word in wordlist:
-        vector += glove[word] * idf[i]
+        vector += glove[word] * idf[vocab_dict[word]]
         i += 1
     vector = vector / np.linalg.norm(vector)
     return vector
+
+
+
+caption1 = "happy dog"
+caption2 = "sad dog"
+captions = [caption1, caption2]
+
+idf, vocab_dict = save_idf(captions)
+for caption in captions:
+    print(se_text(caption, idf, vocab_dict))
 

@@ -1,7 +1,6 @@
 
 from mynn.layers.dense import dense
 from mynn.initializers.glorot_normal import glorot_normal
-from mynn.activations.relu import relu
 from mynn.optimizers.adam import Adam
 from mygrad.nnet.losses import margin_ranking_loss
 import numpy as np
@@ -15,3 +14,16 @@ class Model():
     @property
     def parameters():
         return self.dense.parameters
+
+def train(model, text_emb, good_img, bad_img, optim):
+    sim_to_good=sim(text_emb,model(good_img))
+    sim_to_bad=sim(text_emb,model(bad_img))
+    loss=margin_ranking_loss(sim_to_good,sim_to_bad,1,0.1)
+    loss.backward()
+    optim.step()
+    loss.null_gradients()
+    return loss.item()
+def sim(v1, v2):
+    v2/=np.linalg.norm(v2)
+    return mg.cos(v1,v2)
+

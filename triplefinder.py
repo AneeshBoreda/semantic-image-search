@@ -71,12 +71,13 @@ def get_all_captions():
         all_captions.append(' '.join(caption for caption in imageid_to_captions[image_id]))
 
     return all_captions
-"""
+
 def better_get_triple():
+    global index
     random_index = int(np.random.randint(0, len(list_of_imageids)))
     image_id = list_of_imageids[random_index]
     good_image = data[image_id]
-    caption = imageid_to_captions[image_id][int(np.random.randint(0, 5))]
+    good_caption = imageid_to_captions[image_id][int(np.random.randint(0, 5))]
     idf, vocab_dict = text.save_idf(get_all_captions())
 
     good_image_vector = text.se_text(caption, idf, vocab_dict)
@@ -86,12 +87,13 @@ def better_get_triple():
     bad_captions = []
 
     for index in random_indices:
-        bad_captions.append(imageid_to_captions[list_of_imageids[index]][int(np.random.randint(0, 5))])
+        bad_captions.append((index, imageid_to_captions[list_of_imageids[index]][int(np.random.randint(0, 5))]))
 
-    for bad_captions in bad_captions:
+    best = bad_caption[0[0]]
+    for index, caption in bad_captions:
+        if text.se_text(caption, idf, vocab_dict) @ good_image_vector > text.se_text(imageid_to_captions[best], idf, vocab_dict) @ good_image_vector):
+            best = index
 
-
-    image_id = list_of_imageids[random_index]
+    image_id = list_of_imageids[best]
     bad_image = data[image_id]
     return good_image, caption, bad_image
-"""

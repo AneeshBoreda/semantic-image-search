@@ -61,7 +61,17 @@ def to_vocab(counters, k=None, stop_words=None):
     """
         
     if len(counters) > 1:
-        counter = sum(counters, Counter())
+        #counter = sum(counters, Counter())
+        counter=Counter()
+        i=0
+        for c in counters:
+            i+=1
+            for word in c:
+                if word not in counter:
+                    counter[word]=0
+                counter[word]+=c[word]
+            if i%10000==0:
+                 print(i)
     else:
         counter = counters[0]
         
@@ -77,13 +87,18 @@ def to_vocab(counters, k=None, stop_words=None):
 
 def to_idf(vocab, counters):
     n = []
+    print('Length of vocab:',len(vocab))
+    it=0
     for t in vocab:
         i = 0
+        it+=1
         for doc in counters:
             if t in doc:
                 i += 1
         n.append(i)
-        N = np.full(np.array(n).shape, len(counters))
+        if it%100==0:
+            print(it)
+    N = np.full(np.array(n).shape, len(counters))
     return np.log10(N / np.array(n))
     """
     Given the vocabulary, and the word-counts for each document, computes
@@ -115,11 +130,18 @@ def save_idf(captions):
     returns:
     """
     counterlist = []
+    cnt=0
     for doc in captions:
         counter = to_counter(doc)
         counterlist.append(counter)
+        cnt+=1
+        if cnt%10000==0:
+            print(cnt)
+    print('made list of captions')
     vocab = to_vocab(counterlist)
+    print('made vocab')
     idf = to_idf(vocab, counterlist)
+    print('made idf')
     vocab_dict = {word:index for index,word in enumerate(vocab)}
     return idf, vocab_dict
 

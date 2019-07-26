@@ -76,7 +76,7 @@ def get_all_captions():
     return all_captions
 
 def better_get_triple():
-    global index
+
     random_index = int(np.random.randint(0, len(list_of_imageids)))
     image_id = list_of_imageids[random_index]
     good_image = data[image_id]
@@ -94,7 +94,7 @@ def better_get_triple():
 
     best = bad_caption[0[0]]
     for index, caption in bad_captions:
-        if text.se_text(caption, idf, vocab_dict) @ good_image_vector > text.se_text(imageid_to_captions[best], idf, vocab_dict) @ good_image_vector):
+        if (text.se_text(caption, idf, vocab_dict) @ good_image_vector > text.se_text(imageid_to_captions[best], idf, vocab_dict) @ good_image_vector):
             best = index
 
     image_id = list_of_imageids[best]

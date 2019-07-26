@@ -56,8 +56,6 @@ test_id = list_of_imageids[cutoff:]
 
 def get_triple(id):
 
-
-
     random_index = int(np.random.randint(0, len(id)))
     image_id = id[random_index]
     good_image = data[image_id]

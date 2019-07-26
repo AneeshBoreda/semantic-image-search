@@ -5,6 +5,7 @@ from urllib.request import urlopen
 import matplotlib.pyplot as plt
 import os.path
 from os import path
+import text
 
 #path_to_captions = "/Users/cooperbosch/Desktop/CogWorks/semantic-image-search/captions_train2014.json"
 path_to_captions = "captions_train2014.json"
@@ -48,7 +49,7 @@ with open('resnet18_features.pkl', 'rb') as f:
 
 list_of_imageids = [k for k in data]
 
-cutoff = .8*len(list_of_imageids)
+cutoff = int(.8*len(list_of_imageids))
 train_id = list_of_imageids[:cutoff]
 test_id = list_of_imageids[cutoff:]
 
@@ -82,7 +83,7 @@ def better_get_triple():
     good_caption = imageid_to_captions[image_id][int(np.random.randint(0, 5))]
     idf, vocab_dict = text.save_idf(get_all_captions())
 
-    good_image_vector = text.se_text(caption, idf, vocab_dict)
+    good_image_vector = text.se_text(good_caption, idf, vocab_dict)
 
     random_indices = int(np.random.randint(0, len(list_of_imageids),10))
 

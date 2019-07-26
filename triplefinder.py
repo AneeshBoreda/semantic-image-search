@@ -1,6 +1,7 @@
 import json
 import numpy as np
 import pickle
+import random
 from urllib.request import urlopen
 import matplotlib.pyplot as plt
 import os.path
@@ -49,6 +50,7 @@ with open('resnet18_features.pkl', 'rb') as f:
 
 list_of_imageids = [k for k in data]
 
+#random.shuffle(list_of_imageids)
 cutoff = int(.8*len(list_of_imageids))
 train_id = list_of_imageids[:cutoff]
 test_id = list_of_imageids[cutoff:]

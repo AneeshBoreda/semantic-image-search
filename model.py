@@ -35,4 +35,8 @@ def load():
     model=pkl.load(f)
     f.close()
     return model
-    
+def test(model,  text_emb, good_img, bad_img):
+    sim_to_good = sim(text_emb, model(good_img))
+    sim_to_bad = sim(text_emb, model(bad_img))
+    return int(sim_to_good>sim_to_bad)
+

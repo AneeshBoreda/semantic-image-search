@@ -48,20 +48,24 @@ with open('resnet18_features.pkl', 'rb') as f:
 
 list_of_imageids = [k for k in data]
 
+cutoff = .8*len(list_of_imageids)
+train_id = list_of_imageids[:cutoff]
+test_id = list_of_imageids[cutoff:]
 
 
-def get_triple(return_image_id = False):
-    random_index = int(np.random.randint(0, len(list_of_imageids)))
-    good_image_id = list_of_imageids[random_index]
-    good_image = data[good_image_id]
-    caption = imageid_to_captions[good_image_id][int(np.random.randint(0, 5))]
 
-    random_index = int(np.random.randint(0, len(list_of_imageids)))
-    bad_image_id = list_of_imageids[random_index]
-    bad_image = data[bad_image_id]
+def get_triple(id):
 
-    if return_image_id:
-        return good_image, caption, bad_image, good_image_id, bad_image_id
+
+
+    random_index = int(np.random.randint(0, len(id)))
+    image_id = id[random_index]
+    good_image = data[image_id]
+    caption = imageid_to_captions[image_id][int(np.random.randint(0, 5))]
+
+    random_index = int(np.random.randint(0, len(id)))
+    image_id = id[random_index]
+    bad_image = data[image_id]
     return good_image, caption, bad_image
 
 def get_all_captions():

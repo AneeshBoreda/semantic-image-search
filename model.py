@@ -7,12 +7,12 @@ import numpy as np
 import mygrad as mg
 
 class Model():
-    def __init__(num_in, num_out):
+    def __init__(self,num_in, num_out):
         self.dense=dense(num_in, num_out, weight_initializer=glorot_normal)
-    def __call__(x):
+    def __call__(self,x):
         return self.dense(x)
     @property
-    def parameters():
+    def parameters(self):
         return self.dense.parameters
 
 def train(model, text_emb, good_img, bad_img, optim):
@@ -22,10 +22,10 @@ def train(model, text_emb, good_img, bad_img, optim):
     loss.backward()
     optim.step()
     loss.null_gradients()
-    return loss.item()
+    return loss.item(),int(sim_to_good>sim_to_bad)
 def sim(v1, v2):
-    v2/=np.linalg.norm(v2)
-    return mg.dot(v1,v2)
+    v2/=np.linalg.norm(v2.data)
+    return v2 @ v1
 def save(model):
     f=open('model.obj','wb')
     pkl.dump(model,f)

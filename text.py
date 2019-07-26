@@ -146,12 +146,11 @@ def save_idf(captions):
     return idf, vocab_dict
 
 def se_text(caption, idf, vocab_dict):
-    wordlist = caption.split()
+    wordlist = strip_punc(caption).lower().split()
     vector = 0
-    i = 0
     for word in wordlist:
-        vector += glove[word] * idf[vocab_dict[word]]
-        i += 1
+        if word in glove:
+             vector += glove[word] * idf[vocab_dict[word]]
     vector = vector / np.linalg.norm(vector)
     return vector
 
